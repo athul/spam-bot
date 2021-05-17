@@ -28,9 +28,9 @@ def clean_res(message):
         username = message.split()[1].replace("@", "")
         if username!="spam_re_mon_bot":
             print(insert_to_db(username))
+            return username
         else:
             return "Uvva, nee enikkit thanne RE adi"
-        return username
     else:
         return None
 
@@ -38,9 +38,12 @@ def clean_res(message):
 def handle_re(bot: Update, _: CallbackContext):
     message = bot.message.text
     res = clean_res(message)
-    mess = f"Re Count Updated for @{res}.\n\n Re adikunne kollam, Engaanum thett aanengil, suttiduve" if res != None else "Username thaado"
-    if "Uvva" in res:
+    if res is None:
+        mess = "Username thaado"
+    elif "Uvva" in res:
         mess = res
+    else:
+        mess = f"Re Count Updated for @{res}\.\n\n Re adikunne kollam, Engaanum thett aanengil, suttiduve"
     bot.message.reply_text(mess,parse_mode=ParseMode.MARKDOWN_V2)
 
 def restats(upd:Update,_:CallbackContext):
@@ -70,8 +73,8 @@ async def hello():
 @app.post("/webhook")
 async def handle_webhook(req: Request):
     data = await req.json()
-    if data['message']['chat']['title'] == "SPAM":
-        update = Update.de_json(data, disp.bot)
-        disp.process_update(update)
-    else:
-        pass
+    # if data['message']['chat']['title'] == "SPAM":
+    update = Update.de_json(data, disp.bot)
+    disp.process_update(update)
+    # else:
+    #     pass

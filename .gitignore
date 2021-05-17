@@ -1,0 +1,4 @@
+.env
+.deta/
+Pipfile
+*.lock

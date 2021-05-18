@@ -63,6 +63,16 @@ def handle_gkr(upd: Update, _: CallbackContext):
         "Ellavidha Premium Accountukalkum @Gautam_krish ine sameepikkuka")
 
 
+def handle_quantum(upd: Update, _: CallbackContext):
+    upd.message.reply_markdown_v2(
+        "**Condom** related kaaryangalk\n\n SPAthan enna swayamprakhyapitha **Condom Boi\(@thetronjohnson\)** ne vilikkuka")
+
+
+def handle_gawd(upd: Update, _: CallbackContext):
+    with open("stickers/levi.webp", 'rb') as f:
+        upd.message.reply_sticker(f.read())
+
+
 def get_dispatcher():
     bot = Bot(TOKEN)
     dp = Dispatcher(bot=bot, update_queue=None, use_context=True)
@@ -70,6 +80,8 @@ def get_dispatcher():
     dp.add_handler(CommandHandler("stats", restats))
     dp.add_handler(CommandHandler("pai", handle_pai))
     dp.add_handler(CommandHandler("gkr", handle_gkr))
+    dp.add_handler(CommandHandler("qt", handle_quantum))
+    dp.add_handler(CommandHandler("gawd", handle_gawd))
     return dp
 
 
@@ -86,6 +98,8 @@ async def hello():
 @app.post("/webhook")
 async def handle_webhook(req: Request):
     data = await req.json()
+    # update = Update.de_json(data, disp.bot)
+    # disp.process_update(update)
     try:
         if data['message']['chat']['title'] == "SPAM":
             update = Update.de_json(data, disp.bot)

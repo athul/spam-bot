@@ -1,10 +1,8 @@
-from telegram.constants import PARSEMODE_MARKDOWN_V2
+from fastapi import FastAPI, Request
 from telegram.ext import Dispatcher, CommandHandler, CallbackContext
 from telegram import Update, Bot
 from deta import Deta
 import os
-
-from telegram.parsemode import ParseMode
 
 db = Deta(os.getenv("PROJECT_KEY")).Base("redb")
 
@@ -26,7 +24,7 @@ def insert_to_db(usn: str) -> str:
 def clean_res(message):
     if "@" in message:
         username = message.split()[1].replace("@", "")
-        if username!="spam_re_mon_bot":
+        if username != "spam_re_mon_bot":
             print(insert_to_db(username))
             return username
         else:
@@ -43,38 +41,54 @@ def handle_re(bot: Update, _: CallbackContext):
     elif "Uvva" in res:
         mess = res
     else:
-        mess = f"Re Count Updated for @{res}\.\n\n Re adikunne kollam, Engaanum thett aanengil, suttiduve"
-    bot.message.reply_text(mess,parse_mode=ParseMode.MARKDOWN_V2)
+        mess = f"Re Count Updated for @{res}\.\n\n Re adikunne kollam".replace(
+            "_", "\_")
+    bot.message.reply_markdown_v2(mess)
 
-def restats(upd:Update,_:CallbackContext):
+
+def restats(upd: Update, _: CallbackContext):
     stats = next(db.fetch())
     ll = [f"@{r['key']}: {r['re']}" for r in stats]
     data = "\n".join(ll)
     message = "```text\nTotal Stats\n----- -----\n\n"+data+"\n```\n"
-    upd.message.reply_text(text=message,parse_mode=ParseMode.MARKDOWN_V2)
+    upd.message.reply_markdown_v2(text=message)
+
+
+def handle_pai(upd: Update, _: CallbackContext):
+    upd.message.reply_text("Hai Friends 👋")
+
+
+def handle_gkr(upd: Update, _: CallbackContext):
+    upd.message.reply_text(
+        "Ellavidha Premium Accountukalkum @Gautam_krish ine sameepikkuka")
+
 
 def get_dispatcher():
     bot = Bot(TOKEN)
-    dp = Dispatcher(bot=bot,update_queue=None, use_context=True)
+    dp = Dispatcher(bot=bot, update_queue=None, use_context=True)
     dp.add_handler(CommandHandler("re", handle_re))
-    dp.add_handler(CommandHandler("stats",restats))
+    dp.add_handler(CommandHandler("stats", restats))
+    dp.add_handler(CommandHandler("pai", handle_pai))
+    dp.add_handler(CommandHandler("gkr", handle_gkr))
     return dp
 
 
 disp = get_dispatcher()
-from fastapi import FastAPI,Request
 
 app = FastAPI()
+
 
 @app.get("/")
 async def hello():
     return "Hallo Frande"
-    
+
+
 @app.post("/webhook")
 async def handle_webhook(req: Request):
     data = await req.json()
-    # if data['message']['chat']['title'] == "SPAM":
-    update = Update.de_json(data, disp.bot)
-    disp.process_update(update)
-    # else:
-    #     pass
+    try:
+        if data['message']['chat']['title'] == "SPAM":
+            update = Update.de_json(data, disp.bot)
+            disp.process_update(update)
+    except:
+        return ""

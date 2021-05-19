@@ -29,10 +29,10 @@ def clean_res(message, re: bool = True) -> str:
         username = message.split()[1].replace("@", "")
         if username != "spam_re_mon_bot":
             print(insert_to_db(username))
-            return f"Re Count Updated for @{username}\.\n\n Re adikunne kollam".replace(
+            return f"Re Count Updated for @{username}\.\n\n Re അടിക്കുന്നത് കൊള്ളാം".replace(
                 "_", "\_") if re else username.replace("_", "\_")
         else:
-            return "Uvva, nee enikkit thanne adi"
+            return "ഉവ്വ, നീ എനിക്കിട്ട് തന്നെ അടി "
     else:
         return "Username thaado"
 
@@ -59,31 +59,31 @@ def handle_pai(upd: Update, _: CallbackContext):
 
 def handle_kween(upd: Update, _: CallbackContext):
     try:
-        upd.message.reply_text("Alavalathy",reply_to_message_id=upd.message.reply_to_message.message_id)
+        upd.message.reply_text("അലവലാതി",reply_to_message_id=upd.message.reply_to_message.message_id)
     except:
-        upd.message.reply_text("Alavalathy")
+        upd.message.reply_text("അലവലാതി")
 
 def handle_abru(upd: Update, _: CallbackContext):
     try:
-        upd.message.reply_text("Njaan nannai guis",reply_to_message_id=upd.message.reply_to_message.message_id)
+        upd.message.reply_text("ഞാൻ നന്നായി guis",reply_to_message_id=upd.message.reply_to_message.message_id)
     except:
-        upd.message.reply_text("Njaan nannai guis")
+        upd.message.reply_text("ഞാൻ നന്നായി guis")
 
 def handle_githuboli(upd: Update, _: CallbackContext):
     try:
-        upd.message.reply_text("Ennatha uvve. Enna und aasane",reply_to_message_id=upd.message.reply_to_message.message_id)
+        upd.message.reply_text("എന്നാ ഉണ്ട് ആശാനേ",reply_to_message_id=upd.message.reply_to_message.message_id)
     except:
-        upd.message.reply_text("Ennatha uvve. Enna und aashane")
+        upd.message.reply_text("എന്നാ ഉണ്ട് ആശാനേ")
 
 def handle_gkr(upd: Update, _: CallbackContext):
     upd.message.reply_text(
-        "Ellavidha Premium Accountukalkum GKR ine sameepikkuka")
+        "എല്ലാവിധ Premium Accountukalkum GKR'ne സമീപിക്കുക")
     upd.message.reply_sticker(open("stickers/gkr.webp", "rb").read())
 
 
 def handle_quantum(upd: Update, _: CallbackContext):
     upd.message.reply_markdown_v2(
-        "**Condom** related kaaryangalk\n\n SPAthan enna swayamprakhyapitha **Condom Boi\(@thetronjohnson\)** ne vilikkuka")
+        "**Condom** related കാര്യങ്ങൾക്കു\n\n SPAthan എന്ന സ്വയംപ്രഖ്യാപിത **Condom Boi\(@thetronjohnson\)** ne vilikkuka")
 
 
 def handle_gawd(upd: Update, _: CallbackContext):
@@ -104,7 +104,7 @@ def handle_hbd(upd: Update, _: CallbackContext):
     elif "User" in uname:
         message = uname
     else:
-        message = f"@{uname} in SPAMFAM inte Ellavidha Janmadina Aashamsakalum. Adichupolikkkkkk"
+        message = f"@{uname} in സ്പാം കുടുംബത്തിന്റെ എല്ലാവിധ ജന്മദിനാശംസകൾ... അടിച്ചു പോളിയ്ക്ക്"
 
     upd.message.reply_text(message)
     if uname != message:
@@ -125,12 +125,12 @@ def ban_yarbash(upd: Update, _: CallbackContext):
     except:
         pass
     upd.message.reply_text(
-        f"Yarbash and @{upd.message.from_user.username} are Banned for 1 minute, enn parayaan paranju")
+        f"Yarbash and @{upd.message.from_user.username} are Banned for 1 minute, എന്ന് പറയാൻ പറഞ്ഞു")
     upd.message.reply_photo(open("stickers/banyarbash.jpeg", "rb").read())
 
 
 def handle_umma(upd: Update, _: CallbackContext):
-    upd.message.reply_markdown_v2("Nanni und Mayire 😍\. You're Awesome ❤️",reply_to_message_id=upd.message.reply_to_message.message_id)
+    upd.message.reply_markdown_v2("നന്ദി ഉണ്ട് മയിരേ... 😍\. You're Awesome ❤️",reply_to_message_id=upd.message.reply_to_message.message_id)
 
 
 def toss_idu(upd: Update, _: CallbackContext):

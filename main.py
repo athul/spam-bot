@@ -9,7 +9,8 @@ import time
 db = Deta(os.getenv("PROJECT_KEY")).Base("redb")
 
 TOKEN: str = os.getenv("TOKEN")
-YARBASH:str = os.getenv("BASHETTAN")
+YARBASH: str = os.getenv("BASHETTAN")
+SPAM = os.getenv("SPAM")
 
 
 def insert_to_db(usn: str) -> str:
@@ -53,7 +54,8 @@ def restats(upd: Update, _: CallbackContext):
 
 def handle_pai(upd: Update, _: CallbackContext):
     try:
-        upd.message.reply_text("Hai Friends 👋",reply_to_message_id=upd.message.reply_to_message.message_id)
+        upd.message.reply_text(
+            "Hai Friends 👋", reply_to_message_id=upd.message.reply_to_message.message_id)
     except:
         upd.message.reply_text("Hai Friends 👋")
 
@@ -88,13 +90,15 @@ def handle_quantum(upd: Update, _: CallbackContext):
 
 def handle_gawd(upd: Update, _: CallbackContext):
     try:
-        upd.message.reply_sticker(open("stickers/levi.webp", 'rb').read(),reply_to_message_id=upd.message.reply_to_message.message_id)
+        upd.message.reply_sticker(open("stickers/levi.webp", 'rb').read(),
+                                  reply_to_message_id=upd.message.reply_to_message.message_id)
     except:
         upd.message.reply_sticker(open("stickers/levi.webp", 'rb').read())
 
 
 def handle_wow(upd: Update, _: CallbackContext):
-    upd.message.reply_audio(open("audio/wow.mp3", "rb").read(),reply_to_message_id=upd.message.reply_to_message.message_id)
+    upd.message.reply_audio(open("audio/wow.mp3", "rb").read(),
+                            reply_to_message_id=upd.message.reply_to_message.message_id)
 
 
 def handle_hbd(upd: Update, _: CallbackContext):
@@ -112,15 +116,15 @@ def handle_hbd(upd: Update, _: CallbackContext):
 
 
 def ban_yarbash(upd: Update, _: CallbackContext):
-    bot=Bot(TOKEN)
+    bot = Bot(TOKEN)
     bot.restrict_chat_member(chat_id=upd.message.chat_id, user_id=YARBASH, until_date=time.time()+60, permissions=ChatPermissions(
         can_send_messages=False,
         can_send_media_messages=False
     ))
     try:
         bot.restrict_chat_member(chat_id=upd.message.chat_id, user_id=upd.message.from_user.id, until_date=time.time()+60, permissions=ChatPermissions(
-        can_send_messages=False,
-        can_send_media_messages=False
+            can_send_messages=False,
+            can_send_media_messages=False
         ))
     except:
         pass
@@ -136,11 +140,14 @@ def handle_umma(upd: Update, _: CallbackContext):
 def toss_idu(upd: Update, _: CallbackContext):
     upd.message.reply_dice()
 
-def handle_pewer(upd:Update,_:CallbackContext):
+
+def handle_pewer(upd: Update, _: CallbackContext):
     try:
-        upd.message.reply_text("⚡️",reply_to_message_id=upd.message.reply_to_message.message_id)
+        upd.message.reply_text(
+            "⚡️", reply_to_message_id=upd.message.reply_to_message.message_id)
     except:
         upd.message.reply_text("⚡️")
+
 
 def get_dispatcher():
     bot = Bot(TOKEN)
@@ -179,7 +186,7 @@ async def handle_webhook(req: Request):
     # update = Update.de_json(data, disp.bot)
     # disp.process_update(update)
     try:
-        if data['message']['chat']['title'] == "SPAM":
+        if "SPAM" in data['message']['chat']['title']:
             update = Update.de_json(data, disp.bot)
             disp.process_update(update)
     except:

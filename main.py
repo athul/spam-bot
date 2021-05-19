@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from telegram.chatpermissions import ChatPermissions
 from telegram.ext import Dispatcher, CommandHandler, CallbackContext
-from telegram import Update, Bot
+from telegram import Update, Bot, message
 from deta import Deta
 import os
 import time
@@ -52,8 +52,10 @@ def restats(upd: Update, _: CallbackContext):
 
 
 def handle_pai(upd: Update, _: CallbackContext):
-    upd.message.reply_text("Hai Friends 👋")
-
+    try:
+        upd.message.reply_text("Hai Friends 👋",reply_to_message_id=upd.message.reply_to_message.message_id)
+    except:
+        upd.message.reply_text("Hai Friends 👋")
 
 def handle_gkr(upd: Update, _: CallbackContext):
     upd.message.reply_text(
@@ -67,11 +69,14 @@ def handle_quantum(upd: Update, _: CallbackContext):
 
 
 def handle_gawd(upd: Update, _: CallbackContext):
-    upd.message.reply_sticker(open("stickers/levi.webp", 'rb').read())
+    try:
+        upd.message.reply_sticker(open("stickers/levi.webp", 'rb').read(),reply_to_message_id=upd.message.reply_to_message.message_id)
+    except:
+        upd.message.reply_sticker(open("stickers/levi.webp", 'rb').read())
 
 
 def handle_wow(upd: Update, _: CallbackContext):
-    upd.message.reply_audio(open("audio/wow.mp3", "rb").read())
+    upd.message.reply_audio(open("audio/wow.mp3", "rb").read(),reply_to_message_id=upd.message.reply_to_message.message_id)
 
 
 def handle_hbd(upd: Update, _: CallbackContext):
@@ -89,22 +94,35 @@ def handle_hbd(upd: Update, _: CallbackContext):
 
 
 def ban_yarbash(upd: Update, _: CallbackContext):
-    Bot(TOKEN).restrict_chat_member(chat_id=upd.message.chat_id, user_id=YARBASH, until_date=time.time()+60, permissions=ChatPermissions(
+    bot=Bot(TOKEN)
+    bot.restrict_chat_member(chat_id=upd.message.chat_id, user_id=YARBASH, until_date=time.time()+60, permissions=ChatPermissions(
         can_send_messages=False,
         can_send_media_messages=False
     ))
+    try:
+        bot.restrict_chat_member(chat_id=upd.message.chat_id, user_id=upd.message.from_user.id, until_date=time.time()+60, permissions=ChatPermissions(
+        can_send_messages=False,
+        can_send_media_messages=False
+        ))
+    except:
+        pass
     upd.message.reply_text(
-        "Yarbash is Banned for 1 minute, enn parayaan paranju")
-    upd.message.reply_sticker(open("stickers/yb.webp", "rb").read())
+        f"Yarbash and @{upd.message.from_user.username} are Banned for 1 minute, enn parayaan paranju")
+    upd.message.reply_photo(open("stickers/banyarbash.jpeg", "rb").read())
 
 
 def handle_umma(upd: Update, _: CallbackContext):
-    upd.message.reply_markdown_v2("Nanni und Mayire 😍\. You're Awesome ❤️",reply_to_message_id=)
+    upd.message.reply_markdown_v2("Nanni und Mayire 😍\. You're Awesome ❤️",reply_to_message_id=upd.message.reply_to_message.message_id)
 
 
 def toss_idu(upd: Update, _: CallbackContext):
     upd.message.reply_dice()
 
+def handle_pewer(upd:Update,_:CallbackContext):
+    try:
+        upd.message.reply_text("⚡️",reply_to_message_id=upd.message.reply_to_message.message_id)
+    except:
+        upd.message.reply_text("⚡️")
 
 def get_dispatcher():
     bot = Bot(TOKEN)
@@ -120,6 +138,7 @@ def get_dispatcher():
     dp.add_handler(CommandHandler("hbd", handle_hbd))
     dp.add_handler(CommandHandler("tq", handle_umma))
     dp.add_handler(CommandHandler("dice", toss_idu))
+    dp.add_handler(CommandHandler("pewer", handle_pewer))
     return dp
 
 
@@ -144,11 +163,3 @@ async def handle_webhook(req: Request):
             disp.process_update(update)
     except:
         return ""
-
-
-# "from": {
-#                 "id": 418225867,
-#                 "is_bot": false,
-#                 "first_name": "Yarbash",
-#                 "username": "yarb_ash"
-#             },

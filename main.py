@@ -57,6 +57,24 @@ def handle_pai(upd: Update, _: CallbackContext):
     except:
         upd.message.reply_text("Hai Friends 👋")
 
+def handle_kween(upd: Update, _: CallbackContext):
+    try:
+        upd.message.reply_text("Alavalathy",reply_to_message_id=upd.message.reply_to_message.message_id)
+    except:
+        upd.message.reply_text("Alavalathy")
+
+def handle_abru(upd: Update, _: CallbackContext):
+    try:
+        upd.message.reply_text("Njaan nannai guis",reply_to_message_id=upd.message.reply_to_message.message_id)
+    except:
+        upd.message.reply_text("Njaan nannai guis")
+
+def handle_githuboli(upd: Update, _: CallbackContext):
+    try:
+        upd.message.reply_text("Ennatha uvve. Enna und aasane",reply_to_message_id=upd.message.reply_to_message.message_id)
+    except:
+        upd.message.reply_text("Ennatha uvve. Enna und aashane")
+
 def handle_gkr(upd: Update, _: CallbackContext):
     upd.message.reply_text(
         "Ellavidha Premium Accountukalkum GKR ine sameepikkuka")
@@ -130,6 +148,9 @@ def get_dispatcher():
     dp.add_handler(CommandHandler("re", handle_re))
     dp.add_handler(CommandHandler("stats", restats))
     dp.add_handler(CommandHandler("pai", handle_pai))
+    dp.add_handler(CommandHandler("kween", handle_kween))
+    dp.add_handler(CommandHandler("abru", handle_abru))
+    dp.add_handler(CommandHandler("githuboli", handle_githuboli))
     dp.add_handler(CommandHandler("gkr", handle_gkr))
     dp.add_handler(CommandHandler("qt", handle_quantum))
     dp.add_handler(CommandHandler("gawd", handle_gawd))

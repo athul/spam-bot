@@ -1,16 +1,18 @@
 from fastapi import FastAPI, Request
 from telegram.chatpermissions import ChatPermissions
-from telegram.ext import Dispatcher, CommandHandler, CallbackContext
-from telegram import Update, Bot, message
+from telegram.ext import Dispatcher, CommandHandler, CallbackContext, MessageHandler
+from telegram import Update, Bot
 from deta import Deta
 import os
 import time
+
+from telegram.ext.filters import Filters
 
 db = Deta(os.getenv("PROJECT_KEY")).Base("redb")
 
 TOKEN: str = os.getenv("TOKEN")
 YARBASH: str = os.getenv("BASHETTAN")
-SPAM = os.getenv("SPAM")
+SPAM: str = os.getenv("SPAM")
 
 
 def insert_to_db(usn: str) -> str:
@@ -59,23 +61,30 @@ def handle_pai(upd: Update, _: CallbackContext):
     except:
         upd.message.reply_text("Hai Friends 👋")
 
+
 def handle_kween(upd: Update, _: CallbackContext):
     try:
-        upd.message.reply_text("അലവലാതി",reply_to_message_id=upd.message.reply_to_message.message_id)
+        upd.message.reply_text(
+            "അലവലാതി", reply_to_message_id=upd.message.reply_to_message.message_id)
     except:
         upd.message.reply_text("അലവലാതി")
 
+
 def handle_abru(upd: Update, _: CallbackContext):
     try:
-        upd.message.reply_text("ഞാൻ നന്നായി guis",reply_to_message_id=upd.message.reply_to_message.message_id)
+        upd.message.reply_text(
+            "ഞാൻ നന്നായി guis", reply_to_message_id=upd.message.reply_to_message.message_id)
     except:
         upd.message.reply_text("ഞാൻ നന്നായി guis")
 
+
 def handle_githuboli(upd: Update, _: CallbackContext):
     try:
-        upd.message.reply_text("എന്നാ ഉണ്ട് ആശാനേ",reply_to_message_id=upd.message.reply_to_message.message_id)
+        upd.message.reply_text(
+            "എന്നാ ഉണ്ട് ആശാനേ", reply_to_message_id=upd.message.reply_to_message.message_id)
     except:
         upd.message.reply_text("എന്നാ ഉണ്ട് ആശാനേ")
+
 
 def handle_gkr(upd: Update, _: CallbackContext):
     upd.message.reply_text(
@@ -134,7 +143,8 @@ def ban_yarbash(upd: Update, _: CallbackContext):
 
 
 def handle_umma(upd: Update, _: CallbackContext):
-    upd.message.reply_markdown_v2("നന്ദി ഉണ്ട് മയിരേ... 😍\. You're Awesome ❤️",reply_to_message_id=upd.message.reply_to_message.message_id)
+    upd.message.reply_text("നന്ദി ഉണ്ട് മയിരേ... 😍\. .You're Awesome ❤️",
+                           reply_to_message_id=upd.message.reply_to_message.message_id)
 
 
 def toss_idu(upd: Update, _: CallbackContext):
@@ -147,6 +157,18 @@ def handle_pewer(upd: Update, _: CallbackContext):
             "⚡️", reply_to_message_id=upd.message.reply_to_message.message_id)
     except:
         upd.message.reply_text("⚡️")
+
+
+def respond_with_frande(upd: Update, _: CallbackContext):
+    txt: str = (upd.message.text).lower()
+    is_bot: bool = upd.message.from_user.is_bot
+    words = ['hi', 'hello', 'hai', 'halo', 'hella', "hallo"]
+    if not is_bot and any(x in txt for x in words):
+        try:
+            upd.message.reply_sticker(open("stickers/frand.webp", "rb").read(
+            ), reply_to_message_id=upd.message.reply_to_message.message_id)
+        except:
+            upd.message.reply_sticker(open("stickers/frand.webp", "rb").read())
 
 
 def get_dispatcher():
@@ -167,6 +189,7 @@ def get_dispatcher():
     dp.add_handler(CommandHandler("tq", handle_umma))
     dp.add_handler(CommandHandler("dice", toss_idu))
     dp.add_handler(CommandHandler("pewer", handle_pewer))
+    dp.add_handler(MessageHandler(Filters.text, respond_with_frande))
     return dp
 
 

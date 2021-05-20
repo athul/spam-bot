@@ -160,7 +160,7 @@ def handle_pewer(upd: Update, _: CallbackContext):
 
 
 def respond_with_frande(upd: Update, _: CallbackContext):
-    txt: str = (upd.message.text).lower()
+    txt: str = (upd.message.text).lower().split()
     is_bot: bool = upd.message.from_user.is_bot
     words = ['hi', 'hello', 'hai', 'halo', 'hella', "hallo"]
     if not is_bot and any(x in txt for x in words):

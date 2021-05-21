@@ -140,7 +140,23 @@ def ban_yarbash(upd: Update, _: CallbackContext):
     upd.message.reply_text(
         f"Yarbash and @{upd.message.from_user.username} are Banned for 1 minute, എന്ന് പറയാൻ പറഞ്ഞു")
     upd.message.reply_photo(open("stickers/banyarbash.jpeg", "rb").read())
-
+ 
+def ban_someone(upd: Update, _: CallbackContext):
+    uname = clean_res(upd.message.text, False)
+    try:
+        bot.restrict_chat_member(chat_id=upd.message.chat_id, user_id=uname, until_date=time.time()+60, permissions=ChatPermissions(
+            can_send_messages=False,
+            can_send_media_messages=False
+        ))
+        bot.restrict_chat_member(chat_id=upd.message.chat_id, user_id=upd.message.from_user.id, until_date=time.time()+60, permissions=ChatPermissions(
+            can_send_messages=False,
+            can_send_media_messages=False
+        ))
+    except:
+        pass
+    upd.message.reply_text(
+        f"@{uname} and @{upd.message.from_user.username} are Banned for 1 minute, എന്ന് പറയാൻ പറഞ്ഞു")
+    
 
 def handle_umma(upd: Update, _: CallbackContext):
     upd.message.reply_text("നന്ദി ഉണ്ട് മയിരേ... 😍\. .You're Awesome ❤️",
@@ -185,6 +201,7 @@ def get_dispatcher():
     dp.add_handler(CommandHandler("gawd", handle_gawd))
     dp.add_handler(CommandHandler("wow", handle_wow))
     dp.add_handler(CommandHandler("banyarbash", ban_yarbash))
+    dp.add_handler(CommandHandler("kadakkpurath", ban_someone))
     dp.add_handler(CommandHandler("hbd", handle_hbd))
     dp.add_handler(CommandHandler("tq", handle_umma))
     dp.add_handler(CommandHandler("dice", toss_idu))

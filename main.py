@@ -131,7 +131,7 @@ def ban_yarbash(upd: Update, _: CallbackContext):
         can_send_media_messages=False
     ))
     try:
-        bot.restrict_chat_member(chat_id=upd.message.chat_id, user_id=upd.message.from_user.id, until_date=time.time()+60, permissions=ChatPermissions(
+        bot.restrict_chat_member(chat_id=upd.message.chat_id, user_id=upd.message.from_user.id, until_date=time.time()+120, permissions=ChatPermissions(
             can_send_messages=False,
             can_send_media_messages=False
         ))
@@ -139,16 +139,17 @@ def ban_yarbash(upd: Update, _: CallbackContext):
         pass
     upd.message.reply_text(
         f"Yarbash and @{upd.message.from_user.username} are Banned for 1 minute, എന്ന് പറയാൻ പറഞ്ഞു")
-    upd.message.reply_photo(open("stickers/banyarbash.jpeg", "rb").read())
+    upd.message.reply_sticker(open("stickers/yb.webp", "rb").read())
  
 def ban_someone(upd: Update, _: CallbackContext):
+    bot = Bot(TOKEN)
     uname = clean_res(upd.message.text, False)
     try:
         bot.restrict_chat_member(chat_id=upd.message.chat_id, user_id=uname, until_date=time.time()+60, permissions=ChatPermissions(
             can_send_messages=False,
             can_send_media_messages=False
         ))
-        bot.restrict_chat_member(chat_id=upd.message.chat_id, user_id=upd.message.from_user.id, until_date=time.time()+60, permissions=ChatPermissions(
+        bot.restrict_chat_member(chat_id=upd.message.chat_id, user_id=upd.message.from_user.id, until_date=time.time()+120, permissions=ChatPermissions(
             can_send_messages=False,
             can_send_media_messages=False
         ))
@@ -159,7 +160,7 @@ def ban_someone(upd: Update, _: CallbackContext):
     
 
 def handle_umma(upd: Update, _: CallbackContext):
-    upd.message.reply_text("നന്ദി ഉണ്ട് മയിരേ... 😍\. .You're Awesome ❤️",
+    upd.message.reply_text("നന്ദി ഉണ്ട് മയിരേ...😍 You're Awesome ❤️",
                            reply_to_message_id=upd.message.reply_to_message.message_id)
 
 

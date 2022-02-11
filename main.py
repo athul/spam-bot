@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from telegram.chatpermissions import ChatPermissions
 from telegram.ext import Dispatcher, CommandHandler, CallbackContext, MessageHandler
-from telegram import Update, Bot
+from telegram import Update, Bot, message
 from deta import Deta
 import os
 import time
@@ -11,7 +11,6 @@ from telegram.ext.filters import Filters
 db = Deta(os.getenv("PROJECT_KEY")).Base("redb")
 
 TOKEN: str = os.getenv("TOKEN")
-YARBASH: str = os.getenv("BASHETTAN")
 SPAM: str = os.getenv("SPAM")
 
 
@@ -124,41 +123,6 @@ def handle_hbd(upd: Update, _: CallbackContext):
         upd.message.reply_animation(open("stickers/hbd.gif", "rb").read())
 
 
-def ban_yarbash(upd: Update, _: CallbackContext):
-    bot = Bot(TOKEN)
-    bot.restrict_chat_member(chat_id=upd.message.chat_id, user_id=YARBASH, until_date=time.time()+60, permissions=ChatPermissions(
-        can_send_messages=False,
-        can_send_media_messages=False
-    ))
-    try:
-        bot.restrict_chat_member(chat_id=upd.message.chat_id, user_id=upd.message.from_user.id, until_date=time.time()+120, permissions=ChatPermissions(
-            can_send_messages=False,
-            can_send_media_messages=False
-        ))
-    except:
-        pass
-    upd.message.reply_text(
-        f"Yarbash and @{upd.message.from_user.username} are Banned for 1 minute, എന്ന് പറയാൻ പറഞ്ഞു")
-    upd.message.reply_sticker(open("stickers/yb.webp", "rb").read())
- 
-def ban_someone(upd: Update, _: CallbackContext):
-    bot = Bot(TOKEN)
-    uname = clean_res(upd.message.text, False)
-    try:
-        bot.restrict_chat_member(chat_id=upd.message.chat_id, user_id=uname, until_date=time.time()+60, permissions=ChatPermissions(
-            can_send_messages=False,
-            can_send_media_messages=False
-        ))
-        bot.restrict_chat_member(chat_id=upd.message.chat_id, user_id=upd.message.from_user.id, until_date=time.time()+120, permissions=ChatPermissions(
-            can_send_messages=False,
-            can_send_media_messages=False
-        ))
-    except:
-        pass
-    upd.message.reply_text(
-        f"@{uname} and @{upd.message.from_user.username} are Banned for 1 minute, എന്ന് പറയാൻ പറഞ്ഞു")
-    
-
 def handle_umma(upd: Update, _: CallbackContext):
     upd.message.reply_text("നന്ദി ഉണ്ട് മയിരേ...😍 You're Awesome ❤️",
                            reply_to_message_id=upd.message.reply_to_message.message_id)
@@ -188,6 +152,14 @@ def respond_with_frande(upd: Update, _: CallbackContext):
             upd.message.reply_sticker(open("stickers/frand.webp", "rb").read())
 
 
+def response_for_ayin(upd: Update, _: CallbackContext):
+    try:
+        upd.message.reply_markdown_v2(
+            "Ayin poyi oomfanam mister", reply_to_message_id=upd.message.reply_to_message.message_id)
+    except:
+        upd.message.reply_markdown_v2("Ayin poyi oomfanam mister")
+
+
 def get_dispatcher():
     bot = Bot(TOKEN)
     dp = Dispatcher(bot=bot, update_queue=None, use_context=True)
@@ -201,12 +173,11 @@ def get_dispatcher():
     dp.add_handler(CommandHandler("qt", handle_quantum))
     dp.add_handler(CommandHandler("gawd", handle_gawd))
     dp.add_handler(CommandHandler("wow", handle_wow))
-    dp.add_handler(CommandHandler("banyarbash", ban_yarbash))
-    dp.add_handler(CommandHandler("kadakkpurath", ban_someone))
     dp.add_handler(CommandHandler("hbd", handle_hbd))
     dp.add_handler(CommandHandler("tq", handle_umma))
     dp.add_handler(CommandHandler("dice", toss_idu))
     dp.add_handler(CommandHandler("pewer", handle_pewer))
+    dp.add_handler(CommandHandler("ayn", response_for_ayin))
     dp.add_handler(MessageHandler(Filters.text, respond_with_frande))
     return dp
 
@@ -224,6 +195,7 @@ async def hello():
 @app.post("/webhook")
 async def handle_webhook(req: Request):
     data = await req.json()
+    pass
     # update = Update.de_json(data, disp.bot)
     # disp.process_update(update)
     try:

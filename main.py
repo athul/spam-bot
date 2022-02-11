@@ -68,6 +68,11 @@ def handle_kween(upd: Update, _: CallbackContext):
     except:
         upd.message.reply_text("അലവലാതി")
 
+def handle_sarcasm(upd: Update,_:CallbackContext):
+    try:
+        upd.message.reply_text("Athu Sarcasm aarunnu ketto",reply_to_message_id=upd.message.reply_to_message.message_id)
+    except:
+        upd.message.reply_text("Athu Sarcasm aarunnu ketto")
 
 def handle_abru(upd: Update, _: CallbackContext):
     try:
@@ -80,11 +85,15 @@ def handle_abru(upd: Update, _: CallbackContext):
 def handle_githuboli(upd: Update, _: CallbackContext):
     try:
         upd.message.reply_text(
-            "എന്നാ ഉണ്ട് ആശാനേ", reply_to_message_id=upd.message.reply_to_message.message_id)
+            "എന്നാ ഉണ്ട്", reply_to_message_id=upd.message.reply_to_message.message_id)
     except:
-        upd.message.reply_text("എന്നാ ഉണ്ട് ആശാനേ")
+        upd.message.reply_text("എന്നാ ഉണ്ട്")
 
-
+def handle_subin(upd:Update,_:CallbackContext):
+    try:
+        upd.message.reply_text("എന്താടാ മയിരെ",reply_to_message_id=upd.message.reply_to_message.message_id)
+    except:
+        upd.message.reply_text("എന്താടാ മയിരെ")
 def handle_gkr(upd: Update, _: CallbackContext):
     upd.message.reply_text(
         "എല്ലാവിധ Premium Accountukalkum GKR'ne സമീപിക്കുക")
@@ -159,12 +168,35 @@ def response_for_ayin(upd: Update, _: CallbackContext):
     except:
         upd.message.reply_markdown_v2("Ayin poyi oomfanam mister")
 
+def handle_help(upd:Update,_: CallbackContext):
+    message = """
+Ammavan is here to help my pillers\. Commands chuvade kodukkunnu
+
+\- \/re \- for re vilikkaling Aareya re vilikkunnath enn koodi parayanam ketto\n
+\- \/pai \- for invoking Pai's signature message\n
+\- \/kween \- for replying to a message in kween's own language\n
+\- \/abru \- He's a good boi now\n
+\- \/githuboli \- IDK who put this shit here\n
+\- \/gkr \- Premium uyir bakkiyellam mayir\. GKR inte sticker free aane\n
+\- \/qt \- You have called upon the catastrophic don, Kadayadi Baby err Quantum Kiran \n
+\- \/gawd \- I see no other gawd other than me memefied \n
+\- \/wow \- Eda kunje adipoli\n
+\- \/hbd \- cliche bday wishes aan ente main\n
+\- \/tq \- nanni maathram ❤️😘\n
+\- \/pewer \- Pewer varatte \n
+\- \/ayn \- Ayin nammal ippo entha cheyya\n
+\- \/s \- Ath oru vittarunnu ketto\n
+\- \/subin \- Kunnamkulam king ningale avisambodhana cheyyunath aayirikkum\n
+\- Hai paranjal siddhu varum 🙈\n
+
+Chilath okke reply il work cheyyunnath aan, ethaanenn enik ormayilla\n
+    """
+    upd.message.reply_markdown_v2(message)
 
 def get_dispatcher():
     bot = Bot(TOKEN)
     dp = Dispatcher(bot=bot, update_queue=None, use_context=True)
     dp.add_handler(CommandHandler("re", handle_re))
-    dp.add_handler(CommandHandler("stats", restats))
     dp.add_handler(CommandHandler("pai", handle_pai))
     dp.add_handler(CommandHandler("kween", handle_kween))
     dp.add_handler(CommandHandler("abru", handle_abru))
@@ -178,6 +210,9 @@ def get_dispatcher():
     dp.add_handler(CommandHandler("dice", toss_idu))
     dp.add_handler(CommandHandler("pewer", handle_pewer))
     dp.add_handler(CommandHandler("ayn", response_for_ayin))
+    dp.add_handler(CommandHandler("s", handle_sarcasm))
+    dp.add_handler(CommandHandler("subin", handle_subin))
+    dp.add_handler(CommandHandler("help", handle_help))
     dp.add_handler(MessageHandler(Filters.text, respond_with_frande))
     return dp
 
@@ -195,7 +230,6 @@ async def hello():
 @app.post("/webhook")
 async def handle_webhook(req: Request):
     data = await req.json()
-    pass
     # update = Update.de_json(data, disp.bot)
     # disp.process_update(update)
     try:

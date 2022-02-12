@@ -1,0 +1,22 @@
+[messages]
+[messages.one_liners]
+pai = "Hai Friends 👋"
+kween = "അലവലാതി"
+abru = "ഞാൻ നന്നായി guis"
+githuboli = "എന്നാ ഉണ്"
+subin = "എന്താടാ മയിരെ"
+ayin = "Ayin poyi oomfanam mister"
+pewer = "⚡️"
+s = "Athu Sarcasm aarunnu ketto"
+
+[messages.reply_only_one_liners]
+qt = "**Condom** related കാര്യങ്ങൾക്കു SPAthan എന്ന സ്വയംപ്രഖ്യാപിത \n **Condom Boi (@thetronjohnson)** ne vilikkuka"
+tq = "നന്ദി ഉണ്ട് മയിരേ...😍 You're Awesome ❤️"
+
+[messages.stickers]
+gawd = "stickers/levi.webp"
+
+[messages.messages_with_stickers]
+[messages.messages_with_stickers.gkr]
+message= "എല്ലാവിധ Premium Accountukalkum GKR'ne സമീപിക്കുക"
+sticker= "stickers/gkr.webp"

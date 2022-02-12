@@ -8,29 +8,15 @@ from functools import partial as __
 
 from telegram.ext.filters import Filters
 
-db = Deta(os.getenv("PROJECT_KEY")).Base("redb")
 
 TOKEN: str = os.getenv("TOKEN")
 SPAM: str = os.getenv("SPAM")
-
-
-def insert_to_db(usn: str) -> str:
-    userdata = db.get(usn)
-    if userdata is None:
-        _ = db.put({"key": usn, "re": 1})
-        print(_)
-        return "New User Added to Table"
-    else:
-        updates = {"re": userdata["re"] + 1}
-        db.update(updates, usn)
-        return "Re Count Updated"
 
 
 def clean_res(message, re: bool = True) -> str:
     if "@" in message:
         username = message.split()[1].replace("@", "")
         if username != "spam_re_mon_bot":
-            print(insert_to_db(username))
             return f"@{username} kutta, aa post Re aarunnu ketto".replace(
                 "_", "\_") if re else username.replace("_", "\_")
         else:
@@ -44,18 +30,11 @@ def handle_re(bot: Update, _: CallbackContext):
     res = clean_res(message)
     bot.message.reply_markdown_v2(res)
 
-
-def restats(upd: Update, _: CallbackContext):
-    stats = next(db.fetch())
-    ll = [f"@{r['key']}: {r['re']}" for r in stats]
-    data = "\n".join(ll)
-    message = "```text\nTotal Stats\n----- -----\n\n"+data+"\n```\n"
-    upd.message.reply_markdown_v2(text=message)
-
 def handle_one_liner(upd: Update, _: CallbackContext,message:str):
     try:
         upd.message.reply_text(message.replace(".","\."), reply_to_message_id=upd.message.reply_to_message.message_id)
         print(f"Onliner Sent for {message}")
+        return 
     except:
         upd.message.reply_text(message)
 
@@ -116,30 +95,8 @@ def respond_with_frande(upd: Update, _: CallbackContext):
         except:
             upd.message.reply_sticker(open("stickers/frand.webp", "rb").read())
 
-def handle_help(upd:Update,_: CallbackContext):
-    message = """
-Ammavan is here to help my pillers\. Commands chuvade kodukkunnu
-
-\- \/re \- for re vilikkaling Aareya re vilikkunnath enn koodi parayanam ketto\n
-\- \/pai \- for invoking Pai's signature message\n
-\- \/kween \- for replying to a message in kween's own language\n
-\- \/abru \- He's a good boi now\n
-\- \/githuboli \- IDK who put this shit here\n
-\- \/gkr \- Premium uyir bakkiyellam mayir\. GKR inte sticker free aane\n
-\- \/qt \- You have called upon the catastrophic don, Kadayadi Baby err Quantum Kiran \n
-\- \/gawd \- I see no other gawd other than me memefied \n
-\- \/wow \- Eda kunje adipoli\n
-\- \/hbd \- cliche bday wishes aan ente main\n
-\- \/tq \- nanni maathram ❤️😘\n
-\- \/pewer \- Pewer varatte \n
-\- \/ayn \- Ayin nammal ippo entha cheyya\n
-\- \/s \- Ath oru vittarunnu ketto\n
-\- \/subin \- Kunnamkulam king ningale avisambodhana cheyyunath aayirikkum\n
-\- Hai paranjal siddhu varum 🙈\n
-
-Chilath okke reply il work cheyyunnath aan, ethaanenn enik ormayilla\n
-    """
-    upd.message.reply_markdown_v2(message)
+def handle_help(upd:Update,_: CallbackContext,message:str):
+    upd.message.reply_markdown_v2(message.replace("-","\-").replace("/","\/").replace(".","\."))
 
 data = toml.load("data.toml")
 
@@ -162,7 +119,7 @@ def get_dispatcher():
     dp.add_handler(CommandHandler("wow", handle_wow))
     dp.add_handler(CommandHandler("hbd", handle_hbd))
     dp.add_handler(CommandHandler("dice", toss_idu))
-    dp.add_handler(CommandHandler("help", handle_help))
+    dp.add_handler(CommandHandler("help", __(handle_help,message=data["constant"]["help"])))
     dp.add_handler(MessageHandler(Filters.text, respond_with_frande))
     return dp
 
@@ -180,8 +137,8 @@ async def hello():
 @app.post("/webhook")
 async def handle_webhook(req: Request):
     data = await req.json()
-    update = Update.de_json(data, disp.bot)
-    disp.process_update(update)
+    # update = Update.de_json(data, disp.bot)
+    # disp.process_update(update)
     try:
         if "SPAM" in data['message']['chat']['title']:
             update = Update.de_json(data, disp.bot)

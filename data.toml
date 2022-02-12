@@ -1,5 +1,7 @@
 [messages]
 [messages.one_liners]
+# Add those cheeky or shitty one liners here. 
+# Command name = Oneliner enna format
 pai = "Hai Friends 👋"
 kween = "അലവലാതി"
 abru = "ഞാൻ നന്നായി guis"
@@ -11,11 +13,37 @@ s = "Athu Sarcasm aarunnu ketto"
 pp = "Hehe"
 
 [messages.reply_only_one_liners]
+# Same but for replies and Subin calling everyone else a myren
 qt = "**Condom** related കാര്യങ്ങൾക്കു SPAthan എന്ന സ്വയംപ്രഖ്യാപിത \n **Condom Boi (@thetronjohnson)** ne vilikkuka"
 tq = "നന്ദി ഉണ്ട് മയിരേ...😍 You're Awesome ❤️"
 
 [messages.stickers]
+# Parayendallo, stickers varanamenkil enik sticker ayachthannam 
 gawd = "stickers/levi.webp"
 
 [messages.messages_with_stickers]
+# The OG GKR stuff with that wonderful chiri
 gkr= ["എല്ലാവിധ Premium Accountukalkum GKR'ne സമീപിക്കുക","stickers/gkr.webp"]
+
+[constant]
+help = """
+Ammavan is here to help my pillers. Commands chuvade kodukkunnu
+
+- /re - for re vilikkaling. Aareya re vilikkunnath enn koodi parayanam ketto
+- /pai - for invoking Pai's signature message
+- /kween - for replying to a message in kween's own language
+- /abru - He's a good boi now
+- /githuboli - IDK who put this shit here
+- /gkr - Premium uyir bakkiyellam mayir. GKR inte sticker free aane
+- /qt - You have called upon the catastrophic don, Kadayadi Baby err Quantum Kiran
+- /gawd - I see no other gawd other than me memefied 
+- /wow - Eda kunje adipoli
+- /hbd - cliche bday wishes aan ente main
+- /tq - nanni maathram ❤️😘
+- /pewer - Pewer varatte 
+- /ayn - Ayin nammal ippo entha cheyya
+- /s - Ath oru vittarunnu ketto
+- /subin - Kunnamkulam king ningale avisambodhana cheyyunath aayirikkum
+- Hai paranjal siddhu varum 🙈
+
+Chilath okke reply il work cheyyunnath aan, ethaanenn enik ormayilla"""

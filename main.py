@@ -31,7 +31,7 @@ def clean_res(message, re: bool = True) -> str:
         username = message.split()[1].replace("@", "")
         if username != "spam_re_mon_bot":
             print(insert_to_db(username))
-            return f"Re Count Updated for @{username}\.\n\n Re അടിക്കുന്നത് കൊള്ളാം".replace(
+            return f"@{username} kutta, aa post Re aarunnu ketto".replace(
                 "_", "\_") if re else username.replace("_", "\_")
         else:
             return "ഉവ്വ, നീ എനിക്കിട്ട് തന്നെ അടി "
@@ -93,7 +93,7 @@ def handle_subin(upd:Update,_:CallbackContext):
     try:
         upd.message.reply_text("എന്താടാ മയിരെ",reply_to_message_id=upd.message.reply_to_message.message_id)
     except:
-        upd.message.reply_text("എന്താടാ മയിരെ")
+        upd.message.reply_text("എന്താടാ മൈരേ")
 def handle_gkr(upd: Update, _: CallbackContext):
     upd.message.reply_text(
         "എല്ലാവിധ Premium Accountukalkum GKR'ne സമീപിക്കുക")

@@ -1,4 +1,4 @@
-APScheduler==3.6.3
+apscheduler==3.6.3
 certifi==2020.12.5
 click==7.1.2
 deta==0.7
@@ -9,6 +9,7 @@ python-telegram-bot==13.5
 pytz==2021.1
 six==1.16.0
 starlette==0.14.2
+toml==0.10.2
 tornado==6.1
 typing-extensions==3.10.0.0
 tzlocal==2.1

@@ -4,7 +4,6 @@ from telegram.ext import Dispatcher, CommandHandler, CallbackContext, MessageHan
 from telegram import Update, Bot, message
 from deta import Deta
 import os
-import time
 import toml
 
 from telegram.ext.filters import Filters
@@ -65,11 +64,6 @@ def handle_sticker_only_messages(sticker, upd: Update, _: CallbackContext):
                                   reply_to_message_id=upd.message.reply_to_message.message_id)
     except:
         upd.message.reply_sticker(open(sticker, 'rb').read())
-
-def handle_message_with_one_liner_and_sticker(message, sticker, upd: Update, _: CallbackContext):
-    upd.message.reply_text(message)
-    upd.message.reply_sticker(open(sticker, "rb").read())
-
 
 def handle_reply_only_onliner(message, upd: Update, _: CallbackContext):
     upd.message.reply_markdown_v2(message, reply_to_message_id=upd.message.reply_to_message.message_id)
@@ -147,15 +141,14 @@ def get_dispatcher():
         dp.add_handler(CommandHandler(key, handle_one_liner(value)))
 
     for key,value in data["messages"]["one_liners"].items():
-        dp.add_handler(CommandHandler(key, handle_reply_only_one_liner(value)))
-                       
+        dp.add_handler(CommandHandler(key, handle_reply_only_onliner(value)))
+
     for key,value in data["messages"]["sticker"].items():
         dp.add_handler(CommandHandler(key, handle_sticker_only_messages(value)))
 
-    for key,value in data["messages"][["messages_with_stickers"]].items():
-        dp.add_handler(CommandHandler(
-            key,
-            handle_messages_with_stickers(value["message"], value["sticker"])))
+    for key in data["messages"]["messages_with_stickers"]:
+        for _,v in data["messages"]["messages_with_stickers"][key].items():
+             dp.add_handler(CommandHandler(key,handle_messages_with_stickers(message=v, sticker=v)))
 
     dp.add_handler(CommandHandler("re", handle_re))
     dp.add_handler(CommandHandler("wow", handle_wow))

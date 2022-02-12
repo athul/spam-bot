@@ -1,10 +1,10 @@
 from fastapi import FastAPI, Request
-from telegram.chatpermissions import ChatPermissions
 from telegram.ext import Dispatcher, CommandHandler, CallbackContext, MessageHandler
-from telegram import Update, Bot, message
+from telegram import Update, Bot
 from deta import Deta
 import os
-import time
+import toml
+from functools import partial as __
 
 from telegram.ext.filters import Filters
 
@@ -52,66 +52,36 @@ def restats(upd: Update, _: CallbackContext):
     message = "```text\nTotal Stats\n----- -----\n\n"+data+"\n```\n"
     upd.message.reply_markdown_v2(text=message)
 
-
-def handle_pai(upd: Update, _: CallbackContext):
+def handle_one_liner(upd: Update, _: CallbackContext,message:str):
     try:
-        upd.message.reply_text(
-            "Hai Friends 👋", reply_to_message_id=upd.message.reply_to_message.message_id)
+        upd.message.reply_text(message.replace(".","\."), reply_to_message_id=upd.message.reply_to_message.message_id)
+        print(f"Onliner Sent for {message}")
     except:
-        upd.message.reply_text("Hai Friends 👋")
+        upd.message.reply_text(message)
 
-
-def handle_kween(upd: Update, _: CallbackContext):
+def handle_sticker_only_messages(upd: Update, _: CallbackContext,sticker: str):
     try:
-        upd.message.reply_text(
-            "അലവലാതി", reply_to_message_id=upd.message.reply_to_message.message_id)
-    except:
-        upd.message.reply_text("അലവലാതി")
-
-def handle_sarcasm(upd: Update,_:CallbackContext):
-    try:
-        upd.message.reply_text("Athu Sarcasm aarunnu ketto",reply_to_message_id=upd.message.reply_to_message.message_id)
-    except:
-        upd.message.reply_text("Athu Sarcasm aarunnu ketto")
-
-def handle_abru(upd: Update, _: CallbackContext):
-    try:
-        upd.message.reply_text(
-            "ഞാൻ നന്നായി guis", reply_to_message_id=upd.message.reply_to_message.message_id)
-    except:
-        upd.message.reply_text("ഞാൻ നന്നായി guis")
-
-
-def handle_githuboli(upd: Update, _: CallbackContext):
-    try:
-        upd.message.reply_text(
-            "എന്നാ ഉണ്ട്", reply_to_message_id=upd.message.reply_to_message.message_id)
-    except:
-        upd.message.reply_text("എന്നാ ഉണ്ട്")
-
-def handle_subin(upd:Update,_:CallbackContext):
-    try:
-        upd.message.reply_text("എന്താടാ മയിരെ",reply_to_message_id=upd.message.reply_to_message.message_id)
-    except:
-        upd.message.reply_text("എന്താടാ മൈരേ")
-def handle_gkr(upd: Update, _: CallbackContext):
-    upd.message.reply_text(
-        "എല്ലാവിധ Premium Accountukalkum GKR'ne സമീപിക്കുക")
-    upd.message.reply_sticker(open("stickers/gkr.webp", "rb").read())
-
-
-def handle_quantum(upd: Update, _: CallbackContext):
-    upd.message.reply_markdown_v2(
-        "**Condom** related കാര്യങ്ങൾക്കു\n\n SPAthan എന്ന സ്വയംപ്രഖ്യാപിത **Condom Boi\(@thetronjohnson\)** ne vilikkuka")
-
-
-def handle_gawd(upd: Update, _: CallbackContext):
-    try:
-        upd.message.reply_sticker(open("stickers/levi.webp", 'rb').read(),
+        upd.message.reply_sticker(open(sticker, 'rb').read(),
                                   reply_to_message_id=upd.message.reply_to_message.message_id)
+        print(f"Sticker Sent for {sticker}")
     except:
-        upd.message.reply_sticker(open("stickers/levi.webp", 'rb').read())
+        upd.message.reply_sticker(open(sticker, 'rb').read())
 
+def handle_reply_only_onliner(upd: Update, _: CallbackContext,message: str):
+    try:
+        upd.message.reply_markdown_v2(message.replace(".","\.").replace("(","\(").replace(")","\)"))
+        print(f"Reply Sent with {message}")
+    except Exception as e:
+        print(e)
+    
+
+def handle_messages_with_stickers(upd: Update, _: CallbackContext,message: str, sticker: str):
+    try:
+        upd.message.reply_text(message)
+        upd.message.reply_sticker(open(sticker, "rb").read())
+        print(f"Message and Sticker Sent for {message} and {sticker}")
+    except Exception as e:
+        print(e)
 
 def handle_wow(upd: Update, _: CallbackContext):
     upd.message.reply_audio(open("audio/wow.mp3", "rb").read(),
@@ -131,22 +101,8 @@ def handle_hbd(upd: Update, _: CallbackContext):
     if uname != message:
         upd.message.reply_animation(open("stickers/hbd.gif", "rb").read())
 
-
-def handle_umma(upd: Update, _: CallbackContext):
-    upd.message.reply_text("നന്ദി ഉണ്ട് മയിരേ...😍 You're Awesome ❤️",
-                           reply_to_message_id=upd.message.reply_to_message.message_id)
-
-
 def toss_idu(upd: Update, _: CallbackContext):
     upd.message.reply_dice()
-
-
-def handle_pewer(upd: Update, _: CallbackContext):
-    try:
-        upd.message.reply_text(
-            "⚡️", reply_to_message_id=upd.message.reply_to_message.message_id)
-    except:
-        upd.message.reply_text("⚡️")
 
 
 def respond_with_frande(upd: Update, _: CallbackContext):
@@ -159,14 +115,6 @@ def respond_with_frande(upd: Update, _: CallbackContext):
             ), reply_to_message_id=upd.message.reply_to_message.message_id)
         except:
             upd.message.reply_sticker(open("stickers/frand.webp", "rb").read())
-
-
-def response_for_ayin(upd: Update, _: CallbackContext):
-    try:
-        upd.message.reply_markdown_v2(
-            "Ayin poyi oomfanam mister", reply_to_message_id=upd.message.reply_to_message.message_id)
-    except:
-        upd.message.reply_markdown_v2("Ayin poyi oomfanam mister")
 
 def handle_help(upd:Update,_: CallbackContext):
     message = """
@@ -193,25 +141,27 @@ Chilath okke reply il work cheyyunnath aan, ethaanenn enik ormayilla\n
     """
     upd.message.reply_markdown_v2(message)
 
+data = toml.load("data.toml")
+
 def get_dispatcher():
     bot = Bot(TOKEN)
     dp = Dispatcher(bot=bot, update_queue=None, use_context=True)
+    for key,value in data["messages"]["one_liners"].items():
+        dp.add_handler(CommandHandler(key, __(handle_one_liner,message=value)))
+
+    for key,value in data["messages"]["reply_only_one_liners"].items():
+        dp.add_handler(CommandHandler(key, __(handle_reply_only_onliner,message=value)))
+
+    for key,value in data["messages"]["stickers"].items():
+        dp.add_handler(CommandHandler(key, __(handle_sticker_only_messages,sticker=value)))
+
+    for key,value in data["messages"]["messages_with_stickers"].items():
+        dp.add_handler(CommandHandler(key,__(handle_messages_with_stickers,message=value[0], sticker=value[1])))
+
     dp.add_handler(CommandHandler("re", handle_re))
-    dp.add_handler(CommandHandler("pai", handle_pai))
-    dp.add_handler(CommandHandler("kween", handle_kween))
-    dp.add_handler(CommandHandler("abru", handle_abru))
-    dp.add_handler(CommandHandler("githuboli", handle_githuboli))
-    dp.add_handler(CommandHandler("gkr", handle_gkr))
-    dp.add_handler(CommandHandler("qt", handle_quantum))
-    dp.add_handler(CommandHandler("gawd", handle_gawd))
     dp.add_handler(CommandHandler("wow", handle_wow))
     dp.add_handler(CommandHandler("hbd", handle_hbd))
-    dp.add_handler(CommandHandler("tq", handle_umma))
     dp.add_handler(CommandHandler("dice", toss_idu))
-    dp.add_handler(CommandHandler("pewer", handle_pewer))
-    dp.add_handler(CommandHandler("ayn", response_for_ayin))
-    dp.add_handler(CommandHandler("s", handle_sarcasm))
-    dp.add_handler(CommandHandler("subin", handle_subin))
     dp.add_handler(CommandHandler("help", handle_help))
     dp.add_handler(MessageHandler(Filters.text, respond_with_frande))
     return dp
@@ -230,8 +180,8 @@ async def hello():
 @app.post("/webhook")
 async def handle_webhook(req: Request):
     data = await req.json()
-    # update = Update.de_json(data, disp.bot)
-    # disp.process_update(update)
+    update = Update.de_json(data, disp.bot)
+    disp.process_update(update)
     try:
         if "SPAM" in data['message']['chat']['title']:
             update = Update.de_json(data, disp.bot)

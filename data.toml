@@ -29,6 +29,7 @@ gkr = ["എല്ലാവിധ Premium Accountukalkum GKR'ne സമീപി�
 # Audio Files inte path
 wow = "audio/wow.mp3"
 dharwish = "audio/dharwish.mp3"
+billy = "audio/billy-mon.mp3"
 
 [constant]
 help = """

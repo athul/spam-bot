@@ -9,8 +9,8 @@ from functools import partial as __
 from telegram.ext.filters import Filters
 
 
-TOKEN: str | None = os.getenv("TOKEN")
-SPAM: str | None = os.getenv("SPAM")
+TOKEN: str = os.getenv("TOKEN")
+SPAM: str = os.getenv("SPAM")
 
 
 def clean_res(message, re: bool = True) -> str:
@@ -114,12 +114,19 @@ def handle_messages_with_stickers(
         print(e)
 
 
-def handle_wow(upd: Update, _: CallbackContext):
+def handle_audio(upd: Update, _: CallbackContext, audio: str):
+    """
+    Handles Audio Commands
+
+    Params
+    ------
+    audio: str
+        The Path to the audio file
+    """
     upd.message.reply_audio(
-        open("audio/wow.mp3", "rb").read(),
+        open(audio, "rb").read(),
         reply_to_message_id=upd.message.reply_to_message.message_id,
     )
-
 
 def handle_hbd(upd: Update, _: CallbackContext):
     uname = clean_res(upd.message.text, False)
@@ -200,9 +207,14 @@ def get_dispatcher():
                    message=value[0], sticker=value[1]),
             )
         )
-
+    for key, value in data["messages"]["audio"].items():
+        dp.add_handler(
+            CommandHandler(
+                key,
+                __(handle_audio,audio=value),
+            )
+        )
     dp.add_handler(CommandHandler("re", handle_re))
-    dp.add_handler(CommandHandler("wow", handle_wow))
     dp.add_handler(CommandHandler("hbd", handle_hbd))
     dp.add_handler(CommandHandler("dice", toss_idu))
     dp.add_handler(

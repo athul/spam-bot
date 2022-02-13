@@ -23,7 +23,12 @@ gawd = "stickers/levi.webp"
 
 [messages.messages_with_stickers]
 # The OG GKR stuff with that wonderful chiri
-gkr= ["എല്ലാവിധ Premium Accountukalkum GKR'ne സമീപിക്കുക","stickers/gkr.webp"]
+gkr = ["എല്ലാവിധ Premium Accountukalkum GKR'ne സമീപിക്കുക", "stickers/gkr.webp"]
+
+[messages.audio]
+# Audio Files inte path
+wow = "audio/wow.mp3"
+dharwish = "audio/dharwish.mp3"
 
 [constant]
 help = """

@@ -6,16 +6,18 @@ pai = "Hai Friends 👋"
 kween = "അലവലാതി"
 abru = "ഞാൻ നന്നായി guis"
 githuboli = "എന്നാ ഉണ്"
-subin = "എന്താടാ മയിരെ"
+subin = "എന്താടാ മൈരേ"
 ayin = "Ayin poyi oomfanam mister"
 pewer = "⚡️"
 s = "Athu Sarcasm aarunnu ketto"
 pp = "Hehe"
 
+
 [messages.reply_only_one_liners]
 # Same but for replies and Subin calling everyone else a myren
 qt = "**Condom** related കാര്യങ്ങൾക്കു SPAthan എന്ന സ്വയംപ്രഖ്യാപിത \n **Condom Boi (@thetronjohnson)** ne vilikkuka"
-tq = "നന്ദി ഉണ്ട് മയിരേ...😍 You're Awesome ❤️"
+tq = "നന്ദി ഉണ്ട് മൈരേ...😍 You're Awesome ❤️"
+lol = "എടാ മോനെ അത് കിടു വിറ്റാരുന്നു കേട്ടോ. കില്ലാടി തന്നെ\npoli...\nkidu...\nമ്യാരകം തന്നെ"
 
 [messages.stickers]
 # Parayendallo, stickers varanamenkil enik sticker ayachthannam 
@@ -50,6 +52,10 @@ Ammavan is here to help my pillers. Commands chuvade kodukkunnu
 - /ayn - Ayin nammal ippo entha cheyya
 - /s - Ath oru vittarunnu ketto
 - /subin - Kunnamkulam king ningale avisambodhana cheyyunath aayirikkum
+- /pp - The way MG Sreekumar Laughs
+- /lol - Kidu vittaanallo mwone
+- /dharwish - Depression veno ninakk?
+- /billy - Eternal Laughter of the Billymon Mind
 - Hai paranjal siddhu varum 🙈
 
 Chilath okke reply il work cheyyunnath aan, ethaanenn enik ormayilla"""

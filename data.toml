@@ -17,7 +17,7 @@ pp = "Hehe"
 # Same but for replies and Subin calling everyone else a myren
 qt = "**Condom** related കാര്യങ്ങൾക്കു SPAthan എന്ന സ്വയംപ്രഖ്യാപിത \n **Condom Boi (@thetronjohnson)** ne vilikkuka"
 tq = "നന്ദി ഉണ്ട് മൈരേ...😍 You're Awesome ❤️"
-lol = "എടാ മോനെ അത് കിടു വിറ്റാരുന്നു കേട്ടോ. കില്ലാടി തന്നെ\npoli...\nkidu...\nമ്യാരകം തന്നെ"
+lol = "എടാ mwonuse അത് കിടു വിറ്റാരുന്നു കേട്ടോ. കില്ലാടി തന്നെ\npoli...\nkidu...\nമ്യാരകം തന്നെ"
 
 [messages.stickers]
 # Parayendallo, stickers varanamenkil enik sticker ayachthannam 
@@ -32,6 +32,7 @@ gkr = ["എല്ലാവിധ Premium Accountukalkum GKR'ne സമീപി�
 wow = "audio/wow.mp3"
 dharwish = "audio/dharwish.mp3"
 billy = "audio/billy-mon.mp3"
+elixir = "audio/elixir.mpeg"
 
 [constant]
 help = """
@@ -53,9 +54,10 @@ Ammavan is here to help my pillers. Commands chuvade kodukkunnu
 - /s - Ath oru vittarunnu ketto
 - /subin - Kunnamkulam king ningale avisambodhana cheyyunath aayirikkum
 - /pp - The way MG Sreekumar Laughs
-- /lol - Kidu vittaanallo mwone
+- /lol - Kidu vittaanallo mwonuse
 - /dharwish - Depression veno ninakk?
 - /billy - Eternal Laughter of the Billymon Mind
+- /elixir - Nee Ethavanaada...?
 - Hai paranjal siddhu varum 🙈
 
 Chilath okke reply il work cheyyunnath aan, ethaanenn enik ormayilla"""

@@ -2,6 +2,4 @@
 .deta/
 Pipfile
 *.lock
-stickers/
-audio/
 venv/

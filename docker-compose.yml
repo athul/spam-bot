@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  fastapi-app:
+    build: .
+    container_name: fastapi-container
+    ports:
+      - "8000:8000"  # Expose FastAPI app on port 8000
+    environment:
+      - TOKEN=${TOKEN}          # Example of a database URL (could be for local DB or other)
+      - SPAM=${SPAM}              # Sensitive secret key for FastAPI
+    volumes:
+      - .:/app  # Mount current directory to /app inside the container (useful for dev)
+    env_file:
+      - .env  # Load environment variables from the .env file into the container

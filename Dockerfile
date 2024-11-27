@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM python:3.11-slim
+FROM python:3.10-slim
 
 # Set environment variables to ensure Python output is set straight to the terminal
 # and disable buffering for easier debugging
